@@ -1,5 +1,7 @@
 import Image from "next/image";
 import LoginButton from './components/LoginButton'
+import React from 'react';
+import SearchBar from './components/SearchBar';
 
 export default function Home() {
   return (
@@ -15,6 +17,11 @@ export default function Home() {
         />
          <h1 className="text-4xl font-bold mb-8">Welcome to TraitTune</h1>
          <LoginButton />
+
+         <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold text-center mb-8">TraitTune</h1>
+      <SearchBar />
+         </div>
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}
