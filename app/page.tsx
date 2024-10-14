@@ -1,9 +1,11 @@
 import Image from "next/image";
 import LoginButton from './components/LoginButton'
 import React from 'react';
-import SearchBar from './components/SearchBar';
+import dynamic from 'next/dynamic';
 
-export default function Home() {
+const DynamicSearchBar = dynamic(() => import('./components/SearchBar'), { ssr: false });
+
+const Home: React.FC = () => {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -15,13 +17,10 @@ export default function Home() {
           height={38}
           priority
         />
-         <h1 className="text-4xl font-bold mb-8">Welcome to TraitTune</h1>
-         <LoginButton />
+        <h1 className="text-3xl font-bold text-center mb-8">TraitTune</h1>
+        <LoginButton />
+        <DynamicSearchBar />
 
-         <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-8">TraitTune</h1>
-      <SearchBar />
-         </div>
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}
@@ -109,3 +108,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
