@@ -1,5 +1,6 @@
 import NextAuth, { DefaultSession } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import clientPromise from "@/app/lib/mongodb"
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -17,6 +18,24 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ user, account, profile }) {
+      const client = await clientPromise;
+      const db = client.db("traittune");
+      const usersCollection = db.collection("users");
+
+      await usersCollection.updateOne(
+        { email: user.email },
+        { $set: { 
+          name: user.name, 
+          email: user.email, 
+          image: user.image,
+          lastLogin: new Date()
+        }},
+        { upsert: true }
+      );
+
+      return true;
+    },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub!;
